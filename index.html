@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaPure — Microplastics in Drinking Water | Know. Protect. Act.</title>
+  <meta name="description" content="Learn what microplastics are, how they get into your drinking water, the health risks, and the best ways to protect your family. Interactive, visual, and made for everyone." />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            slate: { 950: '#020617' }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Extra animations for hero */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes shimmer {
+      0%, 100% { opacity: 0.6; }
+      50%       { opacity: 1; }
+    }
+    @keyframes spinSlow {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes bounceIn {
+      0%   { transform: scale(0.7); opacity: 0; }
+      70%  { transform: scale(1.08); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .hero-bg {
+      background: linear-gradient(135deg, #020c1f, #041840, #05233b, #030d22);
+      background-size: 400% 400%;
+      animation: gradientShift 12s ease infinite;
+    }
+
+    .fade-up { animation: fadeUp 0.8s ease both; }
+    .delay-1 { animation-delay: 0.15s; }
+    .delay-2 { animation-delay: 0.30s; }
+    .delay-3 { animation-delay: 0.45s; }
+    .delay-4 { animation-delay: 0.60s; }
+
+    .particle-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.15;
+      animation: shimmer 6s ease-in-out infinite;
+    }
+
+    .spin-ring {
+      border: 2px solid rgba(56,189,248,0.15);
+      border-top-color: rgba(56,189,248,0.5);
+      border-radius: 50%;
+      animation: spinSlow 8s linear infinite;
+    }
+
+    /* Danger flash for stats */
+    @keyframes dangerPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.4); }
+      70%       { box-shadow: 0 0 0 12px rgba(244, 63, 94, 0); }
+    }
+    .danger-pulse { animation: dangerPulse 2.5s ease-in-out infinite; }
+
+    /* Counter animation */
+    .counter-card {
+      background: linear-gradient(135deg, rgba(2,132,199,0.12), rgba(13,148,136,0.08));
+      border: 1px solid rgba(56,189,248,0.2);
+    }
+
+    /* Section separator */
+    .section-sep {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(56,189,248,0.4), transparent);
+    }
+
+    /* Cause card hover */
+    .cause-card {
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    .cause-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(56,189,248,0.35);
+      background: rgba(2,132,199,0.1) !important;
+    }
+
+    /* Solution glow cards */
+    .solution-card { transition: all 0.3s ease; }
+    .solution-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(2,132,199,0.2);
+    }
+
+    /* Scrolling ticker */
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .ticker-inner {
+      display: flex;
+      width: max-content;
+      animation: ticker 28s linear infinite;
+    }
+
+    /* Timeline connector */
+    .timeline-line {
+      width: 2px;
+      background: linear-gradient(to bottom, #38bdf8, #0d9488);
+    }
+  </style>
+</head>
+<body class="hero-bg min-h-screen">
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <nav class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-2.5 group">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-500 flex items-center justify-center shadow-lg group-hover:scale-105 transition">
+            <i class="fa-solid fa-droplet text-white text-sm"></i>
+          </div>
+          <span class="font-black text-white text-lg tracking-tight">Aqua<span class="text-cyan-400">Pure</span></span>
+        </a>
+
+        <!-- Desktop Nav -->
+        <div class="hidden md:flex items-center gap-1">
+          <a href="#what-are" class="px-3 py-2 text-sm text-slate-400 hover:text-cyan-400 rounded-lg hover:bg-slate-800/60 transition font-medium">What Are They?</a>
+          <a href="#causes" class="px-3 py-2 text-sm text-slate-400 hover:text-cyan-400 rounded-lg hover:bg-slate-800/60 transition font-medium">Causes</a>
+          <a href="#health" class="px-3 py-2 text-sm text-slate-400 hover:text-cyan-400 rounded-lg hover:bg-slate-800/60 transition font-medium">Health Risk</a>
+          <a href="#microscope" class="px-3 py-2 text-sm text-slate-400 hover:text-cyan-400 rounded-lg hover:bg-slate-800/60 transition font-medium">Microscope</a>
+          <a href="#calculator" class="px-3 py-2 text-sm text-slate-400 hover:text-cyan-400 rounded-lg hover:bg-slate-800/60 transition font-medium">Calculator</a>
+          <a href="#solutions" class="px-3 py-2 text-sm text-slate-400 hover:text-cyan-400 rounded-lg hover:bg-slate-800/60 transition font-medium">Solutions</a>
+          <a href="#quiz" class="ml-2 px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-sm font-bold transition shadow-lg shadow-cyan-500/25">Take Quiz</a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition" aria-label="Toggle menu">
+          <i class="fa-solid fa-bars text-lg"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-800/60 bg-slate-950/95 px-4 py-3 space-y-1">
+      <a href="#what-are" class="block px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 text-sm font-medium transition">What Are Microplastics?</a>
+      <a href="#causes" class="block px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 text-sm font-medium transition">How They Get In Water</a>
+      <a href="#health" class="block px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 text-sm font-medium transition">Health Risks</a>
+      <a href="#microscope" class="block px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 text-sm font-medium transition">Virtual Microscope</a>
+      <a href="#calculator" class="block px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 text-sm font-medium transition">Your Exposure Calculator</a>
+      <a href="#solutions" class="block px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 text-sm font-medium transition">Solutions &amp; Filters</a>
+      <a href="#quiz" class="block mt-2 px-4 py-2.5 rounded-xl bg-cyan-500 text-slate-950 text-sm font-bold text-center transition">Take the Quiz</a>
+    </div>
+  </nav>
+
+
+  <!-- ============================================================
+       SCROLLING TICKER
+       ============================================================ -->
+  <div class="overflow-hidden bg-slate-950/70 border-b border-slate-800/50 py-2">
+    <div class="ticker-inner text-xs font-mono text-slate-400 select-none">
+      <span class="px-8">🔬 240,000 microplastic particles found in a single liter of bottled water&nbsp;—&nbsp;<em>Columbia University, 2024</em></span>
+      <span class="px-8 text-rose-400">⚠️ Humans may be ingesting 5 grams of plastic per week — equivalent to a credit card</span>
+      <span class="px-8">🌊 Single-use plastic bottles shed MORE particles from cap friction than the bottle itself</span>
+      <span class="px-8 text-cyan-400">✅ Boiling hard tap water removes up to 90% of microplastics — <em>Guangzhou Univ, 2024</em></span>
+      <span class="px-8">🔬 240,000 microplastic particles found in a single liter of bottled water&nbsp;—&nbsp;<em>Columbia University, 2024</em></span>
+      <span class="px-8 text-rose-400">⚠️ Humans may be ingesting 5 grams of plastic per week — equivalent to a credit card</span>
+      <span class="px-8">🌊 Single-use plastic bottles shed MORE particles from cap friction than the bottle itself</span>
+      <span class="px-8 text-cyan-400">✅ Boiling hard tap water removes up to 90% of microplastics — <em>Guangzhou Univ, 2024</em></span>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       HERO SECTION
+       ============================================================ -->
+  <section class="relative min-h-screen flex items-center justify-center px-4 py-24 overflow-hidden">
+
+    <!-- Background orbs -->
+    <div class="particle-orb w-96 h-96 bg-cyan-500 top-10 -left-24"></div>
+    <div class="particle-orb w-80 h-80 bg-blue-700 bottom-20 -right-20" style="animation-delay:3s"></div>
+    <div class="particle-orb w-64 h-64 bg-teal-500 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style="animation-delay:6s;opacity:0.08"></div>
+
+    <!-- Decorative spin ring -->
+    <div class="absolute top-16 right-10 w-48 h-48 spin-ring hidden lg:block"></div>
+    <div class="absolute bottom-20 left-10 w-32 h-32 spin-ring hidden lg:block" style="animation-duration:12s"></div>
+
+    <div class="relative z-10 max-w-6xl mx-auto text-center">
+
+      <!-- Alert badge -->
+      <div class="fade-up delay-1 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-rose-500/40 bg-rose-500/10 text-rose-300 text-xs font-semibold mb-8">
+        <span class="w-2 h-2 rounded-full bg-rose-400 animate-pulse"></span>
+        Global Health Alert — WHO &amp; UNICEF Confirmed
+        <span class="w-2 h-2 rounded-full bg-rose-400 animate-pulse"></span>
+      </div>
+
+      <h1 class="fade-up delay-2 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-6">
+        Your Drinking Water<br />
+        <span class="text-gradient-cyan">Contains Plastic</span>
+      </h1>
+
+      <p class="fade-up delay-3 max-w-3xl mx-auto text-base sm:text-lg md:text-xl text-slate-300 leading-relaxed mb-10">
+        Imagine swallowing <strong class="text-white">240,000 invisible plastic shards</strong> with every bottle of water you drink. 
+        They're smaller than a strand of hair — but they're <strong class="text-cyan-400">real, proven, and inside your body right now.</strong> 
+        Here's what you need to know, and how to protect yourself.
+      </p>
+
+      <div class="fade-up delay-4 flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+        <a href="#what-are" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-teal-500 text-slate-950 font-black text-base hover:scale-105 transition shadow-2xl shadow-cyan-500/30">
+          <i class="fa-solid fa-magnifying-glass mr-2"></i>Show Me The Science
+        </a>
+        <a href="#calculator" class="px-8 py-4 rounded-2xl border border-slate-600 bg-slate-900/60 text-white font-bold text-base hover:border-cyan-500/50 hover:bg-slate-800 transition">
+          <i class="fa-solid fa-calculator mr-2 text-cyan-400"></i>Check My Exposure
+        </a>
+      </div>
+
+      <!-- Hero Stats Row -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+        <div class="counter-card rounded-2xl p-4 text-center">
+          <div class="text-2xl sm:text-3xl font-black text-rose-400 mb-1">240K</div>
+          <div class="text-xs text-slate-400">particles / liter<br/>in bottled water</div>
+        </div>
+        <div class="counter-card rounded-2xl p-4 text-center danger-pulse">
+          <div class="text-2xl sm:text-3xl font-black text-amber-400 mb-1">5g</div>
+          <div class="text-xs text-slate-400">plastic ingested<br/>per week (1 credit card)</div>
+        </div>
+        <div class="counter-card rounded-2xl p-4 text-center">
+          <div class="text-2xl sm:text-3xl font-black text-cyan-400 mb-1">90%</div>
+          <div class="text-xs text-slate-400">reduction possible<br/>by boiling tap water</div>
+        </div>
+        <div class="counter-card rounded-2xl p-4 text-center">
+          <div class="text-2xl sm:text-3xl font-black text-emerald-400 mb-1">99.9%</div>
+          <div class="text-xs text-slate-400">removed by<br/>Reverse Osmosis filter</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Hero wave bottom -->
+    <div class="absolute bottom-0 left-0 right-0 overflow-hidden h-24">
+      <svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" class="w-full h-full">
+        <path d="M0,60 C360,100 1080,20 1440,60 L1440,100 L0,100 Z" fill="rgba(11,19,41,0.8)"/>
+        <path d="M0,80 C480,40 960,90 1440,70 L1440,100 L0,100 Z" fill="rgba(11,19,41,0.5)" class="animated-wave"/>
+      </svg>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       WHAT ARE MICROPLASTICS?
+       ============================================================ -->
+  <section id="what-are" class="py-20 px-4 bg-slate-950/80">
+    <div class="max-w-6xl mx-auto">
+
+      <div class="text-center mb-14">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/25 text-cyan-400 text-xs font-bold uppercase tracking-widest mb-4">
+          <i class="fa-solid fa-atom"></i> The Basics
+        </div>
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
+          What Are <span class="text-gradient-cyan">Microplastics?</span>
+        </h2>
+        <p class="max-w-2xl mx-auto text-slate-400 text-base sm:text-lg">
+          Think of them as the dust of our plastic world — invisible flakes smaller than a sesame seed.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-10 items-center mb-16">
+        <!-- Image -->
+        <div class="image-zoom-container rounded-3xl overflow-hidden shadow-2xl border border-slate-700/50">
+          <img 
+            src="https://images.unsplash.com/photo-1591017403286-fd8493524e1e?w=800&q=80" 
+            alt="Microplastics visible under a microscope" 
+            class="w-full h-80 object-cover"
+            onerror="this.src='https://images.unsplash.com/photo-1542601906897-eaf5f8bd8cf8?w=800&q=80'"
+          />
+        </div>
+        <!-- Text -->
+        <div class="space-y-5">
+          <div class="feature-card p-5 rounded-2xl">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-ruler text-cyan-400"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-white mb-1">Microscopically Tiny</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">Any plastic piece smaller than 5 millimeters is called a microplastic. The most dangerous ones — called <strong class="text-cyan-300">nanoplastics</strong> — are smaller than 1 micrometer, making them invisible even under most microscopes.</p>
+              </div>
+            </div>
+          </div>
+          <div class="feature-card p-5 rounded-2xl">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-triangle-exclamation text-rose-400"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-white mb-1">They're Everywhere Now</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">Scientists have found microplastics in <strong class="text-white">tap water, bottled water, oceans, arctic snow, clouds, and even in human blood, lungs, and placentas.</strong> There is no "safe" water source that is completely free of them today.</p>
+              </div>
+            </div>
+          </div>
+          <div class="feature-card p-5 rounded-2xl">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-flask text-amber-400"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-white mb-1">3 Types You Need to Know</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                  <span class="text-amber-300 font-semibold">Fragments</span> — broken shards from larger plastic items. &nbsp;
+                  <span class="text-rose-300 font-semibold">Fibers</span> — synthetic clothing threads shed during laundry. &nbsp;
+                  <span class="text-purple-300 font-semibold">Beads</span> — added intentionally to cosmetics and toothpastes.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIZE SCALE SLIDER -->
+      <div class="feature-card rounded-3xl p-6 sm:p-8">
+        <div class="text-center mb-6">
+          <h3 class="text-xl sm:text-2xl font-black text-white mb-2">
+            <i class="fa-solid fa-sliders text-cyan-400 mr-2"></i>
+            Size Explorer — Drag the Slider!
+          </h3>
+          <p class="text-slate-400 text-sm">See how different sizes of plastic compare — from what you can see to what enters your bloodstream.</p>
+        </div>
+
+        <div class="max-w-2xl mx-auto">
+          <input id="scale-slider" type="range" min="0" max="4" step="1" value="3" class="w-full h-2 mb-6 cursor-pointer" />
+
+          <div class="grid sm:grid-cols-2 gap-6 items-center">
+            <!-- Visual circle -->
+            <div class="flex justify-center items-center min-h-[160px]">
+              <div id="scale-visual-circle" class="rounded-full bg-amber-400 shadow-lg transition-all duration-300" style="width:18px;height:18px"></div>
+            </div>
+            <!-- Info -->
+            <div class="space-y-3">
+              <div class="text-lg font-bold text-white" id="scale-name">Fine Microplastic Fibers</div>
+              <div class="text-sm text-cyan-300 font-mono" id="scale-size">1 to 70 micrometers</div>
+              <div class="text-xs text-slate-400 leading-relaxed"><strong class="text-slate-300">Example:</strong> <span id="scale-example">Polyester fibers shed from synthetic clothes in laundry.</span></div>
+              <div class="px-3 py-2 rounded-xl bg-rose-500/10 border border-rose-500/25 text-rose-300 text-xs leading-relaxed" id="scale-danger">Invisible in water. Swallowed unnoticed and reaches your stomach lining.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       6 CAUSES OF MICROPLASTICS IN WATER
+       ============================================================ -->
+  <section id="causes" class="py-20 px-4">
+    <div class="max-w-6xl mx-auto">
+
+      <div class="text-center mb-14">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/25 text-rose-400 text-xs font-bold uppercase tracking-widest mb-4">
+          <i class="fa-solid fa-circle-exclamation"></i> 6 Root Causes
+        </div>
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
+          How Do They Get Into <span class="text-gradient-rose">Your Water?</span>
+        </h2>
+        <p class="max-w-2xl mx-auto text-slate-400 text-base">
+          There are 6 main pathways that bring microplastics from our everyday plastic use into your drinking glass.
+        </p>
+      </div>
+
+      <!-- Full-width hero image -->
+      <div class="image-zoom-container rounded-3xl mb-10 border border-slate-700/40 shadow-xl">
+        <img 
+          src="https://images.unsplash.com/photo-1604187351574-c75ca79f5807?w=1200&q=80" 
+          alt="Plastic pollution in water" 
+          class="w-full h-56 sm:h-72 object-cover"
+          onerror="this.src='https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=1200&q=80'"
+        />
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        <div class="cause-card bg-slate-900/60 rounded-2xl p-6">
+          <div class="w-12 h-12 rounded-2xl bg-rose-500/20 flex items-center justify-center mb-4">
+            <i class="fa-solid fa-bottle-water text-rose-400 text-xl"></i>
+          </div>
+          <h3 class="font-bold text-white text-base mb-2">1. Plastic Bottle Caps</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Every time you unscrew a plastic bottle cap, friction grinds tiny plastic shards directly into the water. This alone can add <strong class="text-rose-300">hundreds of thousands of particles</strong> per liter.</p>
+        </div>
+
+        <div class="cause-card bg-slate-900/60 rounded-2xl p-6">
+          <div class="w-12 h-12 rounded-2xl bg-amber-500/20 flex items-center justify-center mb-4">
+            <i class="fa-solid fa-shirt text-amber-400 text-xl"></i>
+          </div>
+          <h3 class="font-bold text-white text-base mb-2">2. Synthetic Clothing Laundry</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Washing polyester, nylon, or acrylic clothes releases <strong class="text-amber-300">up to 700,000 synthetic fibers</strong> per wash. These fibers pass through wastewater treatment and enter rivers and tap water supplies.</p>
+        </div>
+
+        <div class="cause-card bg-slate-900/60 rounded-2xl p-6">
+          <div class="w-12 h-12 rounded-2xl bg-blue-500/20 flex items-center justify-center mb-4">
+            <i class="fa-solid fa-industry text-blue-400 text-xl"></i>
+          </div>
+          <h3 class="font-bold text-white text-base mb-2">3. Industrial Waste &amp; Pellets</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Factories that make plastic products use small raw plastic pellets called "nurdles." Accidental spills of these pellets contaminate rivers that feed municipal water treatment plants.</p>
+        </div>
+
+        <div class="cause-card bg-slate-900/60 rounded-2xl p-6">
+          <div class="w-12 h-12 rounded-2xl bg-teal-500/20 flex items-center justify-center mb-4">
+            <i class="fa-solid fa-pipe text-teal-400 text-xl"></i>
+          </div>
+          <h3 class="font-bold text-white text-base mb-2">4. Old Plastic Pipes</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Aging PVC and plastic plumbing pipes inside buildings slowly shed particles as water flows through them. The older the building, the higher the risk from pipe degradation.</p>
+        </div>
+
+        <div class="cause-card bg-slate-900/60 rounded-2xl p-6">
+          <div class="w-12 h-12 rounded-2xl bg-purple-500/20 flex items-center justify-center mb-4">
+            <i class="fa-solid fa-cloud-rain text-purple-400 text-xl"></i>
+          </div>
+          <h3 class="font-bold text-white text-base mb-2">5. Air &amp; Rainwater Fallout</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Plastic particles float in the air and fall with rain into open water reservoirs and wells. Scientists have even detected microplastics in clouds above mountains and in arctic snow.</p>
+        </div>
+
+        <div class="cause-card bg-slate-900/60 rounded-2xl p-6">
+          <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 flex items-center justify-center mb-4">
+            <i class="fa-solid fa-soap text-cyan-400 text-xl"></i>
+          </div>
+          <h3 class="font-bold text-white text-base mb-2">6. Personal Care Products</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Microbeads in exfoliating face washes, toothpaste, and scrubs wash down your drain and pass straight through water treatment plants — they're too small to be filtered out.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       HEALTH EFFECTS
+       ============================================================ -->
+  <section id="health" class="py-20 px-4 bg-slate-950/80">
+    <div class="max-w-6xl mx-auto">
+
+      <div class="text-center mb-14">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/25 text-amber-400 text-xs font-bold uppercase tracking-widest mb-4">
+          <i class="fa-solid fa-heart-pulse"></i> Health Impact
+        </div>
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
+          What Happens to <span class="text-amber-400">Your Body?</span>
+        </h2>
+        <p class="max-w-2xl mx-auto text-slate-400 text-base">
+          Once microplastics enter your body, they don't just pass through — some stay, accumulate, and trigger biological responses.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-10 items-center mb-16">
+        <!-- Body effects grid -->
+        <div class="grid grid-cols-2 gap-4">
+
+          <div class="feature-card p-5 rounded-2xl text-center">
+            <div class="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center mx-auto mb-3">
+              <i class="fa-solid fa-heart text-red-400 text-xl"></i>
+            </div>
+            <h4 class="font-bold text-white text-sm mb-1">Heart & Blood</h4>
+            <p class="text-slate-400 text-xs">Found in blood vessels. Linked to higher risk of heart attack and stroke (2024 study in NEJM).</p>
+          </div>
+
+          <div class="feature-card p-5 rounded-2xl text-center">
+            <div class="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-3">
+              <i class="fa-solid fa-lungs text-amber-400 text-xl"></i>
+            </div>
+            <h4 class="font-bold text-white text-sm mb-1">Lungs & Breathing</h4>
+            <p class="text-slate-400 text-xs">Airborne microplastics inhaled into lungs. Linked to inflammation and reduced lung capacity.</p>
+          </div>
+
+          <div class="feature-card p-5 rounded-2xl text-center">
+            <div class="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-3">
+              <i class="fa-solid fa-stomach text-emerald-400 text-xl"></i>
+            </div>
+            <h4 class="font-bold text-white text-sm mb-1">Gut & Digestion</h4>
+            <p class="text-slate-400 text-xs">Irritates gut lining, disrupts gut bacteria balance, and may worsen inflammatory bowel conditions.</p>
+          </div>
+
+          <div class="feature-card p-5 rounded-2xl text-center">
+            <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center mx-auto mb-3">
+              <i class="fa-solid fa-brain text-purple-400 text-xl"></i>
+            </div>
+            <h4 class="font-bold text-white text-sm mb-1">Brain & Hormones</h4>
+            <p class="text-slate-400 text-xs">Chemicals in plastics (like BPA and phthalates) act as hormone disruptors, affecting development and mood.</p>
+          </div>
+
+          <div class="feature-card p-5 rounded-2xl text-center col-span-2">
+            <div class="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center mx-auto mb-3">
+              <i class="fa-solid fa-baby text-rose-400 text-xl"></i>
+            </div>
+            <h4 class="font-bold text-white text-sm mb-1">Babies &amp; Unborn Children</h4>
+            <p class="text-slate-400 text-xs">Microplastics have been detected in human placentas and umbilical cord blood, meaning babies are exposed before they are even born. Considered especially alarming by WHO.</p>
+          </div>
+
+        </div>
+
+        <!-- Image -->
+        <div class="image-zoom-container rounded-3xl overflow-hidden shadow-2xl border border-slate-700/40">
+          <img 
+            src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80" 
+            alt="Medical research on water quality" 
+            class="w-full h-96 object-cover"
+            onerror="this.src='https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&q=80'"
+          />
+        </div>
+      </div>
+
+      <!-- Warning Banner -->
+      <div class="rounded-3xl border border-rose-500/30 bg-rose-500/10 p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <div class="w-14 h-14 rounded-2xl bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+          <i class="fa-solid fa-circle-exclamation text-rose-400 text-2xl"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-white text-lg mb-2">We Are All Affected</h3>
+          <p class="text-slate-300 text-sm leading-relaxed">A 2024 study in the <em>New England Journal of Medicine</em> found microplastics inside arterial plaques of people with heart disease — and those with more plastic had <strong class="text-rose-300">4.5× higher risk of heart attack or stroke</strong>. This is no longer a future concern. It is happening now.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       VIRTUAL MICROSCOPE / WATER CANVAS
+       ============================================================ -->
+  <section id="microscope" class="py-20 px-4">
+    <div class="max-w-6xl mx-auto">
+
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/25 text-blue-400 text-xs font-bold uppercase tracking-widest mb-4">
+          <i class="fa-solid fa-microscope"></i> Interactive Lab
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-black text-white mb-3">
+          Virtual Microscope 🔬
+        </h2>
+        <p class="max-w-xl mx-auto text-slate-400 text-sm sm:text-base">
+          Move your mouse (or finger on mobile) over the water sample to interact with the particles. Switch between polluted and filtered water!
+        </p>
+      </div>
+
+      <div class="feature-card rounded-3xl overflow-hidden">
+        <!-- Canvas controls -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 border-b border-slate-700/60">
+          <div>
+            <span id="sim-status-badge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30">
+              <span class="w-2 h-2 rounded-full bg-rose-400 animate-pulse"></span>
+              Raw Water Sample (Contains Microplastics)
+            </span>
+          </div>
+          <div class="flex items-center gap-3">
+            <button id="btn-sim-polluted" class="px-4 py-2 rounded-xl text-xs font-bold bg-rose-500 text-white shadow-lg transition">
+              <i class="fa-solid fa-biohazard mr-1"></i> Polluted Water
+            </button>
+            <button id="btn-sim-clean" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-400 hover:text-white border border-slate-700 transition">
+              <i class="fa-solid fa-droplet mr-1"></i> After Filtration
+            </button>
+          </div>
+        </div>
+
+        <!-- The actual canvas -->
+        <div class="relative" style="height: 420px;">
+          <canvas id="water-canvas" class="absolute inset-0 w-full h-full cursor-crosshair"></canvas>
+          <!-- Overlay label -->
+          <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between pointer-events-none">
+            <div class="px-3 py-1.5 rounded-lg bg-slate-950/80 text-slate-400 text-xs font-mono">
+              <i class="fa-solid fa-computer-mouse mr-1 text-cyan-500"></i> Hover to disturb particles
+            </div>
+            <div id="sim-particle-count" class="px-3 py-1.5 rounded-lg bg-slate-950/80 text-cyan-300 text-xs font-mono">
+              ~240,000 particles / Liter in Single-Use Bottles
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       YOUR EXPOSURE CALCULATOR
+       ============================================================ -->
+  <section id="calculator" class="py-20 px-4 bg-slate-950/80">
+    <div class="max-w-5xl mx-auto">
+
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-500/10 border border-teal-500/25 text-teal-400 text-xs font-bold uppercase tracking-widest mb-4">
+          <i class="fa-solid fa-calculator"></i> Personal Tool
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-black text-white mb-3">
+          How Much Plastic Are <em>You</em> Drinking?
+        </h2>
+        <p class="max-w-xl mx-auto text-slate-400 text-sm sm:text-base">
+          Fill in your daily habits and we'll calculate your personal microplastic exposure. No data is collected — this runs entirely in your browser.
+        </p>
+      </div>
+
+      <div class="feature-card rounded-3xl p-6 sm:p-8">
+        <div class="grid sm:grid-cols-2 gap-6 mb-6">
+
+          <div>
+            <label class="block text-slate-300 text-sm font-semibold mb-2">
+              <i class="fa-solid fa-bottle-water text-rose-400 mr-2"></i>Bottled Water (liters / day)
+            </label>
+            <input id="calc-bottled" type="number" min="0" max="10" step="0.5" value="0" 
+                   class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-cyan-500 transition" />
+            <p class="text-slate-500 text-xs mt-1">0 if you don't drink bottled water</p>
+          </div>
+
+          <div>
+            <label class="block text-slate-300 text-sm font-semibold mb-2">
+              <i class="fa-solid fa-faucet text-cyan-400 mr-2"></i>Tap / Filtered Water (liters / day)
+            </label>
+            <input id="calc-tap" type="number" min="0" max="10" step="0.5" value="1.5" 
+                   class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-cyan-500 transition" />
+            <p class="text-slate-500 text-xs mt-1">Adults typically drink 1.5 – 2.5 liters/day</p>
+          </div>
+
+          <div>
+            <label class="block text-slate-300 text-sm font-semibold mb-2">
+              <i class="fa-solid fa-fire text-amber-400 mr-2"></i>Do You Boil Your Tap Water?
+            </label>
+            <select id="calc-boil" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-cyan-500 transition">
+              <option value="no">No, I drink it directly</option>
+              <option value="yes">Yes, I boil before drinking</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-slate-300 text-sm font-semibold mb-2">
+              <i class="fa-solid fa-filter text-emerald-400 mr-2"></i>What Filter Do You Use?
+            </label>
+            <select id="calc-filter" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-cyan-500 transition">
+              <option value="none">None (no filter)</option>
+              <option value="pitcher">Standard Pitcher (Brita etc.)</option>
+              <option value="carbon">Carbon Block Filter</option>
+              <option value="uf">Ultrafiltration (UF)</option>
+              <option value="ro">Reverse Osmosis (RO)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-slate-300 text-sm font-semibold mb-2">
+              <i class="fa-solid fa-plug text-slate-400 mr-2"></i>Do You Use a Plastic Kettle?
+            </label>
+            <select id="calc-kettle" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-cyan-500 transition">
+              <option value="no">No (glass or steel kettle)</option>
+              <option value="yes">Yes (plastic electric kettle)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-slate-300 text-sm font-semibold mb-2">
+              <i class="fa-solid fa-mug-hot text-orange-400 mr-2"></i>Do You Drink Tea From Plastic Teabags?
+            </label>
+            <select id="calc-teabags" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-cyan-500 transition">
+              <option value="no">No (loose leaf or no tea)</option>
+              <option value="yes">Yes (regular plastic mesh teabags)</option>
+            </select>
+          </div>
+
+        </div>
+
+        <button id="btn-calculate-risk" class="w-full py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-teal-500 text-slate-950 font-black text-base hover:from-cyan-400 hover:to-teal-400 transition shadow-xl shadow-cyan-500/20">
+          <i class="fa-solid fa-bolt mr-2"></i>Calculate My Microplastic Exposure
+        </button>
+
+        <!-- RESULT CARD -->
+        <div id="calc-result-card" class="hidden mt-6 space-y-5">
+
+          <div class="flex items-center justify-between flex-wrap gap-3">
+            <h3 class="text-lg font-bold text-white">Your Personal Exposure Report</h3>
+            <span id="res-level-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+              Calculating...
+            </span>
+          </div>
+
+          <div class="grid grid-cols-3 gap-4">
+            <div class="bg-slate-900/80 rounded-2xl p-4 text-center border border-slate-700/60">
+              <div class="text-xs text-slate-400 mb-1">Per Week</div>
+              <div id="res-weekly" class="text-2xl font-black text-white">—</div>
+              <div class="text-xs text-slate-500">particles</div>
+            </div>
+            <div class="bg-slate-900/80 rounded-2xl p-4 text-center border border-slate-700/60">
+              <div class="text-xs text-slate-400 mb-1">Per Year</div>
+              <div id="res-annual" class="text-2xl font-black text-white">—</div>
+              <div class="text-xs text-slate-500">particles</div>
+            </div>
+            <div class="bg-slate-900/80 rounded-2xl p-4 text-center border border-rose-500/20">
+              <div class="text-xs text-slate-400 mb-1">Equivalent to</div>
+              <div id="res-cards" class="text-sm font-black text-rose-300 leading-tight">—</div>
+            </div>
+          </div>
+
+          <!-- Personalised advice -->
+          <div class="bg-slate-900/60 rounded-2xl p-5 border border-slate-700/40">
+            <h4 class="font-bold text-white text-sm mb-3 flex items-center gap-2">
+              <i class="fa-solid fa-lightbulb text-cyan-400"></i> Personalised Actions for You
+            </h4>
+            <ul id="res-advice" class="space-y-2">
+              <!-- Populated by JavaScript -->
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SOLUTIONS SECTION
+       ============================================================ -->
+  <section id="solutions" class="py-20 px-4">
+    <div class="max-w-6xl mx-auto">
+
+      <div class="text-center mb-14">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-bold uppercase tracking-widest mb-4">
+          <i class="fa-solid fa-shield-halved"></i> Take Action
+        </div>
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
+          How To <span class="text-emerald-400">Protect Yourself</span>
+        </h2>
+        <p class="max-w-2xl mx-auto text-slate-400 text-base">
+          The good news: you can dramatically reduce your exposure with simple, affordable changes today.
+        </p>
+      </div>
+
+      <!-- Solutions image -->
+      <div class="image-zoom-container rounded-3xl mb-12 border border-slate-700/40 shadow-xl">
+        <img 
+          src="https://images.unsplash.com/photo-1583722853324-6dba5d8d7e0c?w=1200&q=80" 
+          alt="Clean water filtration and purification" 
+          class="w-full h-64 object-cover"
+          onerror="this.src='https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=1200&q=80'"
+        />
+      </div>
+
+      <!-- Timeline of solutions -->
+      <div class="space-y-6 mb-16">
+
+        <!-- Immediate steps -->
+        <div class="feature-card rounded-2xl p-6 sm:p-8">
+          <h3 class="text-lg font-bold text-emerald-400 mb-5 flex items-center gap-2">
+            <i class="fa-solid fa-bolt"></i> Instant Free Actions (Do These Today!)
+          </h3>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="flex items-start gap-3 p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/15">
+              <i class="fa-solid fa-circle-check text-emerald-400 mt-0.5"></i>
+              <div>
+                <div class="font-semibold text-white text-sm mb-1">Switch to Glass or Steel Bottles</div>
+                <div class="text-slate-400 text-xs">Eliminate the #1 source of plastic in your drinking water. One-time cost, used for years.</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/15">
+              <i class="fa-solid fa-circle-check text-emerald-400 mt-0.5"></i>
+              <div>
+                <div class="font-semibold text-white text-sm mb-1">Boil Your Tap Water</div>
+                <div class="text-slate-400 text-xs">Boiling hard tap water + straining through a coffee filter removes up to 90% of microplastics. Completely free!</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/15">
+              <i class="fa-solid fa-circle-check text-emerald-400 mt-0.5"></i>
+              <div>
+                <div class="font-semibold text-white text-sm mb-1">Stop Using Plastic Kettles</div>
+                <div class="text-slate-400 text-xs">Boiling water in plastic kettles releases microplastics. Switch to glass or stainless steel immediately.</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/15">
+              <i class="fa-solid fa-circle-check text-emerald-400 mt-0.5"></i>
+              <div>
+                <div class="font-semibold text-white text-sm mb-1">Use Loose Leaf Tea</div>
+                <div class="text-slate-400 text-xs">Plastic mesh pyramid teabags release up to 11,000 microplastic particles per cup when steeped in hot water.</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/15">
+              <i class="fa-solid fa-circle-check text-emerald-400 mt-0.5"></i>
+              <div>
+                <div class="font-semibold text-white text-sm mb-1">Never Microwave in Plastic</div>
+                <div class="text-slate-400 text-xs">Heating plastic in a microwave dramatically accelerates the release of micro and nanoplastics into your food.</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/15">
+              <i class="fa-solid fa-circle-check text-emerald-400 mt-0.5"></i>
+              <div>
+                <div class="font-semibold text-white text-sm mb-1">Use a Laundry Bag Filter</div>
+                <div class="text-slate-400 text-xs">A Guppyfriend bag or Cora Ball in your washing machine captures up to 90% of synthetic clothing fibers before they reach drains.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- FILTER COMPARISON MATRIX -->
+      <div>
+        <div class="flex items-center justify-between flex-wrap gap-4 mb-6">
+          <h3 class="text-xl sm:text-2xl font-black text-white">
+            <i class="fa-solid fa-filter text-cyan-400 mr-2"></i>
+            Which Water Filter Works Best?
+          </h3>
+          <span class="text-slate-500 text-xs">Ranked by microplastic removal efficiency</span>
+        </div>
+        <div id="filter-matrix-cards" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       QUIZ SECTION
+       ============================================================ -->
+  <section id="quiz" class="py-20 px-4 bg-slate-950/80">
+    <div class="max-w-3xl mx-auto">
+
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-400 text-xs font-bold uppercase tracking-widest mb-4">
+          <i class="fa-solid fa-star"></i> Test Your Knowledge
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-black text-white mb-3">
+          Quick Knowledge Quiz 🎓
+        </h2>
+        <p class="text-slate-400 text-sm sm:text-base max-w-lg mx-auto">
+          5 questions. No pressure. Learn something new with every answer — correct or not!
+        </p>
+      </div>
+
+      <div class="feature-card rounded-3xl p-6 sm:p-8">
+
+        <!-- Progress bar -->
+        <div class="mb-6">
+          <div class="flex justify-between text-xs text-slate-400 mb-2">
+            <span id="quiz-count">Question 1 of 5</span>
+            <span class="text-cyan-400 font-semibold">AquaPure Quiz</span>
+          </div>
+          <div class="h-2 bg-slate-800 rounded-full overflow-hidden">
+            <div id="quiz-progress" class="h-full bg-gradient-to-r from-cyan-500 to-teal-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div id="quiz-container">
+          <h3 id="quiz-question" class="text-base sm:text-lg font-bold text-white mb-5 leading-snug">Loading...</h3>
+
+          <div id="quiz-options" class="space-y-3 mb-5">
+            <!-- Options injected by JS -->
+          </div>
+
+          <div id="quiz-feedback" class="hidden p-4 rounded-xl border text-xs leading-relaxed mb-4">
+            <!-- Feedback injected by JS -->
+          </div>
+
+          <button id="quiz-next-btn" class="hidden w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-500 text-slate-950 font-black text-sm hover:from-cyan-400 hover:to-teal-400 transition">
+            Next Question →
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       TECH BADGE (POLYGLOT STACK)
+       ============================================================ -->
+  <section class="py-16 px-4">
+    <div class="max-w-5xl mx-auto">
+      <div class="feature-card rounded-3xl p-6 sm:p-8">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+          <div class="flex-1">
+            <h3 class="text-lg font-black text-white mb-2">
+              <i class="fa-solid fa-code text-cyan-400 mr-2"></i>
+              Powered by a Full Polyglot Tech Stack
+            </h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              This website is backed by a Python Flask risk-analysis API and a Java enterprise simulation engine — demonstrating full-stack polyglot development for real-world scientific computing.
+            </p>
+          </div>
+          <div class="flex flex-col gap-3 text-xs font-mono min-w-[200px]">
+            <!-- Python status -->
+            <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-900/80 border border-slate-700/50">
+              <span id="dot-python" class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
+              <span id="text-python" class="text-slate-400">Python (5000): Offline</span>
+            </div>
+            <!-- Java status -->
+            <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-900/80 border border-slate-700/50">
+              <span id="dot-java" class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
+              <span id="text-java" class="text-slate-400">Java (8080): Offline</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stack logos row -->
+        <div class="mt-6 pt-6 border-t border-slate-700/50 grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-900/60">
+            <div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
+              <i class="fa-brands fa-html5 text-orange-400 text-sm"></i>
+            </div>
+            <div>
+              <div class="text-white text-xs font-bold">HTML5 &amp; CSS3</div>
+              <div class="text-slate-500 text-xs">Frontend UI</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-900/60">
+            <div class="w-8 h-8 rounded-lg bg-yellow-500/20 flex items-center justify-center">
+              <i class="fa-brands fa-js text-yellow-400 text-sm"></i>
+            </div>
+            <div>
+              <div class="text-white text-xs font-bold">JavaScript ES6+</div>
+              <div class="text-slate-500 text-xs">Interactivity</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-900/60">
+            <div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
+              <i class="fa-brands fa-python text-blue-400 text-sm"></i>
+            </div>
+            <div>
+              <div class="text-white text-xs font-bold">Python Flask</div>
+              <div class="text-slate-500 text-xs">Risk API (port 5000)</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-900/60">
+            <div class="w-8 h-8 rounded-lg bg-red-500/20 flex items-center justify-center">
+              <i class="fa-brands fa-java text-red-400 text-sm"></i>
+            </div>
+            <div>
+              <div class="text-white text-xs font-bold">Java 17 Engine</div>
+              <div class="text-slate-500 text-xs">Simulation (port 8080)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       FINAL CTA
+       ============================================================ -->
+  <section class="py-20 px-4 bg-gradient-to-b from-transparent to-slate-950">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="floating-element inline-block text-5xl mb-6">💧</div>
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
+        Every Drop Counts
+      </h2>
+      <p class="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto mb-10">
+        Now you know the truth about what's in your water. Share this page with someone you care about — because clean water is a right, not a luxury.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#calculator" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-teal-500 text-slate-950 font-black text-base hover:scale-105 transition shadow-2xl shadow-cyan-500/30">
+          <i class="fa-solid fa-calculator mr-2"></i>Check Your Exposure
+        </a>
+        <a href="#quiz" class="px-8 py-4 rounded-2xl border border-slate-600 bg-slate-900/60 text-white font-bold text-base hover:border-cyan-500/50 transition">
+          <i class="fa-solid fa-star mr-2 text-purple-400"></i>Take the Quiz
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="border-t border-slate-800/60 bg-slate-950 py-10 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid sm:grid-cols-3 gap-8 mb-8">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-500 flex items-center justify-center">
+              <i class="fa-solid fa-droplet text-white text-xs"></i>
+            </div>
+            <span class="font-black text-white">AquaPure</span>
+          </div>
+          <p class="text-slate-400 text-xs leading-relaxed">An educational research portal on microplastics in drinking water, built with Python, Java, and JavaScript.</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-white text-sm mb-3">Research Sources</h4>
+          <ul class="space-y-1.5 text-slate-400 text-xs">
+            <li>Columbia University — 2024 Nanoplastics Study</li>
+            <li>Guangzhou Medical University — Boiling Research</li>
+            <li>WHO — Global Plastic Contamination Report</li>
+            <li>NEJM — Cardiovascular Microplastics Study</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-white text-sm mb-3">Quick Navigation</h4>
+          <ul class="space-y-1.5 text-slate-400 text-xs">
+            <li><a href="#what-are" class="hover:text-cyan-400 transition">What Are Microplastics?</a></li>
+            <li><a href="#causes" class="hover:text-cyan-400 transition">How They Enter Water</a></li>
+            <li><a href="#health" class="hover:text-cyan-400 transition">Health Effects</a></li>
+            <li><a href="#calculator" class="hover:text-cyan-400 transition">Exposure Calculator</a></li>
+            <li><a href="#solutions" class="hover:text-cyan-400 transition">Solutions &amp; Filters</a></li>
+            <li><a href="#quiz" class="hover:text-cyan-400 transition">Knowledge Quiz</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="section-sep mb-6"></div>
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+        <span>© 2026 AquaPure Research Portal &nbsp;|&nbsp; Educational Use Only</span>
+        <span class="font-mono">Built with HTML · CSS · JavaScript · Python Flask · Java 17</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- App JS -->
+  <script src="app.js"></script>
+
+</body>
+</html>

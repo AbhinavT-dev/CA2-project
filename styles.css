@@ -1,0 +1,144 @@
+/* ==========================================================================
+   AQUAPURE | MODERN, VISUAL & ANIMATED WATER EDUCATION PORTAL
+   Designed for Everyone: Clear, Friendly, Image-Rich & Interactive
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  
+  --color-primary: #0284c7;
+  --color-primary-light: #38bdf8;
+  --color-teal: #0d9488;
+  --color-danger: #f43f5e;
+  --color-success: #10b981;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: #0b1329;
+  color: #f1f5f9;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Glass Card with Smooth Hover */
+.feature-card {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: 0 20px 30px -10px rgba(2, 132, 199, 0.25);
+}
+
+/* Image Card Hover Zoom */
+.image-zoom-container {
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.image-zoom-container img {
+  transition: transform 0.5s ease;
+}
+
+.feature-card:hover .image-zoom-container img {
+  transform: scale(1.06);
+}
+
+/* Animated Water Wave */
+@keyframes waveFlow {
+  0% { transform: translateX(0) translateZ(0) scaleY(1); }
+  50% { transform: translateX(-25%) translateZ(0) scaleY(0.85); }
+  100% { transform: translateX(-50%) translateZ(0) scaleY(1); }
+}
+
+.animated-wave {
+  animation: waveFlow 12s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+}
+
+/* Floating Animation */
+@keyframes floatGentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.floating-element {
+  animation: floatGentle 4s ease-in-out infinite;
+}
+
+/* Pulse Dot */
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.5; }
+}
+
+.pulse-badge {
+  animation: pulseDot 2s ease-in-out infinite;
+}
+
+/* Gradient Text */
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #38bdf8 0%, #2dd4bf 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-rose {
+  background: linear-gradient(135deg, #fb7185 0%, #f43f5e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0b1329;
+}
+::-webkit-scrollbar-thumb {
+  background: #0284c7;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #38bdf8;
+}
+
+/* Custom Range Slider */
+input[type="range"] {
+  accent-color: #38bdf8;
+}
+
+/* Print Styling */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  nav, footer, #water-canvas, button, .no-print {
+    display: none !important;
+  }
+  .feature-card {
+    border: 1px solid #ddd !important;
+    background: none !important;
+    color: #000 !important;
+  }
+}
